@@ -11,7 +11,7 @@ function Allusers() {
   const [genderFilter, setGender] = useState("all");
   const [loadmore, setLoadmore] = useState(10);
   const [loading,setLoading] = useState(false);
-  const [active,setActive] = useState("");
+  const [active,setActive] = useState("all");
   useEffect(() => {
     setLoading(true);
     async function getUser() {
@@ -33,7 +33,6 @@ function Allusers() {
     getUser();
   }, [loadmore]);
 
-
   const handleInputchange = (event) => {
     const { value } = event.target;
     setSearchterm(value);
@@ -46,7 +45,6 @@ function Allusers() {
     setActive(value);
   };
   const handleLoad = () => {
-    if(loading)return;
     setLoadmore(loadmore + 10);
   };
   const filteredProducts = usersData.filter((users) => {
@@ -108,7 +106,7 @@ function Allusers() {
           </form>
         </nav>
       </div>
-      <div className="">
+      <div className="all-user-component">
         <h1 className="p-2">All Users</h1>
         <div className="users-list mt-5 d-flex justify-content-center flex-wrap gap-2">
           {filteredProducts.length === 0 ? (
@@ -116,18 +114,19 @@ function Allusers() {
           ) : (
             filteredProducts.map((users, index) => {
               return (
-                <Card
-                  key={index}
-                  hoverable
-                  style={{
-                    width: 240,
-                  }}
-                  cover={<img alt="example" src={users.picture.medium} />}
-                >
-                  <Link to={`details/${users.id.value}`}>
-                    <Meta title={`${users.name.first} ${users.name.last}`} />
-                  </Link>
-                </Card>
+                <Link key={index} to={`details/${users.id.value}`} style={{textDecoration: 'none'}}>
+                  <Card
+                    
+                    hoverable
+                    style={{
+                      width: 240,
+                    }}
+                    cover={<img alt="example" src={users.picture.medium} />}
+                  >
+                      <Meta title={`${users.name.first} ${users.name.last}`} />
+                  
+                  </Card>
+                </Link>
               );
             })
           )}
